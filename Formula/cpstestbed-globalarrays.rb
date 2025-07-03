@@ -1,8 +1,8 @@
 class CpstestbedGlobalarrays < Formula
   desc "Partitioned Global Address Space (PGAS) library for distributed arrays"
   homepage "http://hpc.pnl.gov/globalarrays/"
-  url "https://github.com/GlobalArrays/ga/releases/download/v5.8/ga-5.8.tar.gz"
-  sha256 "64df7d1ea4053d24d84ca361e67a6f51c7b17ed7d626cb18a9fbc759f4a078ac"
+  url "https://github.com/GlobalArrays/ga/releases/download/v5.9.2/ga-5.9.2.tar.gz"
+  sha256 "cbf15764bf9c04e47e7a798271c418f76b23f1857b23feb24b6cb3891a57fbf2"
   license "BSD-3-Clause"
 
   livecheck do
@@ -26,13 +26,13 @@ class CpstestbedGlobalarrays < Formula
                           "--with-mpi-ts",
                           "--enable-cxx",
                           "--enable-shared",
-                          "MPICC=mpicc",
-                          "MPIFC=mpif90",
-                          "MPIF77=mpif77",
-                          "MPIF99=mpif99",
-                          "MPICXX=mpicxx",
-                          "MPIEXEC=mpiexec",
-                          "MPIRUN=mpirun",
+                          "MPICC=#{Formula['open-mpi'].opt_prefix}/bin/mpicc",
+                          "MPIFC=#{Formula['open-mpi'].opt_prefix}/bin/mpif90",
+                          "MPIF77=#{Formula['open-mpi'].opt_prefix}/bin/mpif77",
+                          "MPIF99=#{Formula['open-mpi'].opt_prefix}/bin/mpif99",
+                          "MPICXX=#{Formula['open-mpi'].opt_prefix}/bin/mpicxx",
+                          "MPIEXEC=#{Formula['open-mpi'].opt_prefix}/bin/mpiexec",
+                          "MPIRUN=#{Formula['open-mpi'].opt_prefix}/bin/mpirun",
                           "MAKEFLAGS=$MAKEFLAGS"
     system "make"
     system "make", "install"
