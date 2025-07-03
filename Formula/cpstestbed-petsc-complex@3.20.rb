@@ -19,7 +19,8 @@ class CpstestbedPetscComplexAT320 < Formula
   depends_on "openblas"
   depends_on "scalapack"
 
-  uses_from_macos "python" => :build
+  # required for xdrlib
+  uses_from_macos "python@3.12" => :build
 
   keg_only :versioned_formula
 
@@ -27,9 +28,9 @@ class CpstestbedPetscComplexAT320 < Formula
     system "./configure", "--prefix=#{prefix}",
                           "--download-suitesparse",
                           "--with-cmake",
-                          "--with-metis-dir=#{Formula["metis"].prefix}",
-                          "--with-parmetis-dir=#{Formula["brewsci-parmetis"].prefix}",
-                          "--with-superlu_dist-dir=#{Formula["brewsci-superlu-dist"].prefix}",
+                          "--with-metis-dir=#{Formula["metis"].opt_prefix}",
+                          "--with-parmetis-dir=#{Formula["brewsci-parmetis"].opt_prefix}",
+                          "--with-superlu_dist-dir=#{Formula["brewsci-superlu-dist"].opt_prefix}",
                           "--with-debugging",
                           "--with-scalar-type=complex",
                           "--with-x=0",

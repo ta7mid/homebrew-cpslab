@@ -20,17 +20,18 @@ class CpstestbedPetscComplex < Formula
   depends_on "scalapack"
   depends_on "suite-sparse"
 
-  uses_from_macos "python" => :build
+  # required for xdrlib
+  uses_from_macos "python@3.12" => :build
 
   keg_only "PETSc is provided by Homebrew Core"
 
   def install
     system "./configure", "--prefix=#{prefix}",
                           "--with-cmake",
-                          "--with-metis-dir=#{Formula["metis"].prefix}",
-                          "--with-parmetis-dir=#{Formula["brewsci-parmetis"].prefix}",
-                          "--with-suitesparse-dir=#{Formula["suite-sparse"].prefix}",
-                          "--with-superlu_dist-dir=#{Formula["brewsci-superlu-dist"].prefix}",
+                          "--with-metis-dir=#{Formula["metis"].opt_prefix}",
+                          "--with-parmetis-dir=#{Formula["brewsci-parmetis"].opt_prefix}",
+                          "--with-suitesparse-dir=#{Formula["suite-sparse"].opt_prefix}",
+                          "--with-superlu_dist-dir=#{Formula["brewsci-superlu-dist"].opt_prefix}",
                           "--with-debugging",
                           "--with-scalar-type=complex",
                           "--with-x=0",
