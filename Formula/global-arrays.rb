@@ -12,7 +12,11 @@ class GlobalArrays < Formula
     inreplace "CMakeLists.txt", "install(TARGETS ga\n", "install(TARGETS ga ga++\n"
     inreplace "ga++/CMakeLists.txt", "target_link_libraries(ga++)", "target_link_libraries(ga++ PUBLIC ga)"
 
-    args = ["-DENABLE_TESTS=OFF", "-DENABLE_FORTRAN=OFF"]
+    args = %w[
+      -D ENABLE_TESTS=OFF
+      -D ENABLE_FORTRAN=OFF
+    ]
+
     system "cmake", "-S", ".", "-B", "build", *args, *std_cmake_args, "-DCMAKE_BUILD_TYPE=Debug"
     system "cmake", "--build", "build"
     system "cmake", "--install", "build"
