@@ -16,14 +16,13 @@ class GlobalArrays < Formula
       -D ENABLE_TESTS=OFF
       -D ENABLE_FORTRAN=OFF
     ]
-
-    system "cmake", "-S", ".", "-B", "build", *args, *std_cmake_args, "-DCMAKE_BUILD_TYPE=Debug"
+    system "cmake", "-S", ".", "-B", "build", *args, *std_cmake_args, "-D CMAKE_BUILD_TYPE=Debug"
     system "cmake", "--build", "build"
     system "cmake", "--install", "build"
   end
 
   test do
-    (testpath/"test.c++").write <<~CPP
+    (testpath/"test.c++").write <<~CXX
       #include <ga/ga++.h>
       #include <iostream>
 
@@ -34,8 +33,10 @@ class GlobalArrays < Formula
           std::cout << GA::nodes();
         GA::Terminate();
       }
-    CPP
-    system "mpicxx", "test.c++", "-o", "test", "-I#{include}", "-L#{lib}", "-lga", "-lga++"
+    CXX
+
+    flags = %W[-I#{include} -L#{lib} -Wl,-rpath,#{lib} -lga -lga++]
+    system "mpicxx", "test.c++", "-o", "test", *flags
     output = shell_output("mpirun ./test")
     assert_equal Hardware::CPU.cores, output.to_i
   end
