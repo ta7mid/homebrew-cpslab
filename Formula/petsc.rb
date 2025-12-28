@@ -1,39 +1,34 @@
-class CpstestbedPetscComplex < Formula
+class Petsc < Formula
   desc "Portable, Extensible Toolkit for Scientific Computation (complex)"
   homepage "https://petsc.org/"
-  url "https://web.cels.anl.gov/projects/petsc/download/release-snapshots/petsc-3.22.0.tar.gz"
-  sha256 "2c03f7c0f7ad2649240d4989355cf7fb7f211b75156cd7d424e1d9dd7dfb290b"
+  url "https://web.cels.anl.gov/projects/petsc/download/release-snapshots/petsc-3.24.1.tar.gz"
+  sha256 "d77f3fd5187a72ce5b68a056aa8fcccd37b6dc7a388991d1d8fa0bde32b0abc8"
   license "BSD-2-Clause"
 
   livecheck do
-    formula "petsc-complex"
+    formula "petsc"
   end
 
-  depends_on "brewsci/num/brewsci-parmetis"
-  depends_on "brewsci/num/brewsci-superlu-dist"
-  depends_on "cmake"
+  depends_on "cmake" => :build
   depends_on "hdf5-mpi"
-  depends_on "hwloc"
-  depends_on "metis"
   depends_on "open-mpi"
   depends_on "openblas"
-  depends_on "scalapack"
   depends_on "suite-sparse"
 
   # required for xdrlib
-  uses_from_macos "python@3.12" => :build
+  uses_from_macos "python@3.14" => :build
 
   keg_only "PETSc is provided by Homebrew Core"
 
   def install
     system "./configure", "--prefix=#{prefix}",
                           "--with-cmake",
-                          "--with-metis-dir=#{Formula["metis"].opt_prefix}",
-                          "--with-parmetis-dir=#{Formula["brewsci-parmetis"].opt_prefix}",
+                          "--download-metis",
+                          "--download-parmetis",
+                          "--download-superlu_dist",
                           "--with-suitesparse-dir=#{Formula["suite-sparse"].opt_prefix}",
-                          "--with-superlu_dist-dir=#{Formula["brewsci-superlu-dist"].opt_prefix}",
                           "--with-debugging",
-                          "--with-scalar-type=complex",
+                          "--with-scalar-type=real",
                           "--with-x=0",
                           "--CC=mpicc",
                           "--CXX=mpicxx",
